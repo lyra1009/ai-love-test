@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>💘 找对你的AI灵魂伴侣 · 520特别版</title>
+<style>
+:root {
+  --bg: #0a0a0f;
+  --bg-card: #12121a;
+  --bg-card-hover: #1a1a28;
+  --text: #e8e8f0;
+  --text-secondary: #9898b0;
+  --text-muted: #686880;
+  --accent: #ff4d6a;
+  --accent-glow: #ff4d6a66;
+  --accent2: #7c5cfc;
+  --accent2-glow: #7c5cfc66;
+  --gold: #f0c060;
+  --gold-glow: #f0c06044;
+  --border: #2a2a3a;
+  --border-active: #ff4d6a55;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --font-display: 'Georgia', 'Noto Serif SC', serif;
+  --font-body: 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+#particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+.particle { position: absolute; border-radius: 50%; animation: floatUp linear infinite; opacity: 0; }
+@keyframes floatUp {
+  0% { transform: translateY(100vh) scale(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+}
+.app-container { position: relative; z-index: 1; max-width: 480px; margin: 0 auto; min-height: 100vh; padding: 20px 16px 40px; }
+.page { display: none; animation: pageIn 0.5s ease-out; }
+.page.active { display: block; }
+@keyframes pageIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* 首页 */
+.hero { text-align: center; padding: 40px 0 20px; }
+.hero-icon { font-size: 72px; animation: heartbeat 1.2s ease-in-out infinite; display: inline-block; }
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  14% { transform: scale(1.15); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.1); }
+  56% { transform: scale(1); }
+}
+.hero-title { font-family: var(--font-display); font-size: 28px; font-weight: 700; margin: 16px 0 8px; background: linear-gradient(135deg, #ff4d6a, #ff8fa3, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.4; }
+.hero-subtitle { font-size: 15px; color: var(--text-secondary); margin-bottom: 8px; letter-spacing: 2px; }
+.hero-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 32px; }
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px 40px; font-size: 17px; font-weight: 600; color: #fff;
+  background: linear-gradient(135deg, #ff4d6a, #e0445e); border: none;
+  border-radius: 50px; cursor: pointer; transition: all 0.3s;
+  box-shadow: 0 4px 24px var(--accent-glow); letter-spacing: 1px;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px var(--accent-glow); }
+.btn-primary:active { transform: scale(0.97); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+.btn-secondary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 12px 28px; font-size: 14px; font-weight: 500; color: var(--text);
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 50px; cursor: pointer; transition: all 0.3s;
+}
+.btn-secondary:hover { border-color: var(--accent2); background: var(--bg-card-hover); }
+.features { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 24px 0; }
+.feature-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px; text-align: center; transition: all 0.3s; }
+.feature-item:hover { border-color: var(--border-active); background: var(--bg-card-hover); }
+.feature-icon { font-size: 28px; margin-bottom: 6px; }
+.feature-label { font-size: 12px; color: var(--text-secondary); }
+
+/* 答题页 */
+.quiz-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.quiz-back { width: 36px; height: 36px; border-radius: 50%; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary); font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+.quiz-back:hover { border-color: var(--accent2); color: var(--text); }
+.progress-wrap { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.progress-bar { height: 100%; background: linear-gradient(90deg, #ff4d6a, #c084fc); border-radius: 3px; transition: width 0.4s ease; }
+.progress-text { font-size: 13px; color: var(--text-secondary); min-width: 48px; text-align: right; }
+.question-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 24px; margin-bottom: 16px; transition: all 0.3s; }
+.question-section-label { display: inline-block; font-size: 11px; color: var(--accent2); background: var(--accent2-glow); padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; letter-spacing: 1px; }
+.question-text { font-family: var(--font-display); font-size: 20px; font-weight: 600; line-height: 1.5; margin-bottom: 24px; color: #fff; }
+.options-list { display: flex; flex-direction: column; gap: 10px; }
+.option-btn {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 16px 18px; background: var(--bg); border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); cursor: pointer; transition: all 0.25s;
+  text-align: left; color: var(--text); font-size: 14px; line-height: 1.5;
+}
+.option-btn:hover { border-color: var(--accent2); background: var(--bg-card-hover); transform: translateX(4px); }
+.option-btn.selected { border-color: var(--accent); background: #ff4d6a10; box-shadow: 0 0 20px var(--accent-glow); }
+.option-emoji { font-size: 24px; flex-shrink: 0; width: 32px; text-align: center; padding-top: 2px; }
+.option-content { flex: 1; }
+.option-label { font-weight: 600; margin-bottom: 2px; }
+.option-desc { font-size: 12px; color: var(--text-muted); }
+.quiz-nav { display: flex; gap: 12px; margin-top: 8px; }
+.quiz-nav .btn-primary { flex: 1; }
+
+/* 结果页 */
+.result-header { text-align: center; padding: 20px 0; }
+.result-badge { display: inline-block; font-size: 13px; color: var(--gold); background: var(--gold-glow); padding: 6px 16px; border-radius: 20px; letter-spacing: 2px; margin-bottom: 12px; }
+.result-personality-icon { font-size: 80px; animation: heartbeat 2s ease-in-out infinite; display: block; margin: 16px auto; }
+.result-code { font-family: var(--font-display); font-size: 36px; font-weight: 700; letter-spacing: 4px; background: linear-gradient(135deg, #f0c060, #ff8fa3, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.result-name { font-size: 22px; font-weight: 600; margin: 8px 0; }
+.result-tagline { font-size: 14px; color: var(--text-secondary); font-style: italic; margin-bottom: 8px; }
+.result-stars { font-size: 18px; margin-bottom: 16px; letter-spacing: 2px; }
+.result-stars span { color: var(--text-muted); font-size: 12px; margin-left: 4px; }
+
+/* 维度条 */
+.dimensions-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+.dimensions-title { font-size: 13px; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 16px; text-align: center; }
+.dimension-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.dimension-label { font-size: 12px; color: var(--text-secondary); width: 56px; text-align: right; flex-shrink: 0; }
+.dimension-bar-wrap { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; position: relative; }
+.dimension-bar { height: 100%; border-radius: 4px; transition: width 1s ease-out; }
+.dimension-bar.ip { background: linear-gradient(90deg, #ff4d6a, #ff8fa3); }
+.dimension-bar.sd { background: linear-gradient(90deg, #ff8fa3, #f0c060); }
+.dimension-bar.ef { background: linear-gradient(90deg, #7c5cfc, #c084fc); }
+.dimension-bar.ac { background: linear-gradient(90deg, #4dc9f6, #7c5cfc); }
+.dimension-pct { font-size: 12px; color: var(--text-secondary); width: 36px; flex-shrink: 0; }
+.dimension-ends { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); padding: 0 56px 0 66px; margin-top: -8px; margin-bottom: 12px; }
+
+/* 情书卡片 */
+.love-letter { background: linear-gradient(135deg, #1a1a2e, #1a1a28); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 16px; position: relative; overflow: hidden; }
+.love-letter::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 30% 20%, #ff4d6a08, transparent 50%), radial-gradient(circle at 70% 80%, #7c5cfc08, transparent 50%); }
+.love-letter-title { font-size: 13px; color: var(--accent); letter-spacing: 2px; margin-bottom: 12px; position: relative; }
+.love-letter-content { font-size: 14px; line-height: 1.8; color: var(--text-secondary); position: relative; }
+
+/* CP匹配 */
+.cp-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+.cp-title { font-size: 13px; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 16px; text-align: center; }
+.cp-pair { display: flex; align-items: center; justify-content: center; gap: 16px; }
+.cp-person { text-align: center; flex: 1; }
+.cp-person-icon { font-size: 40px; display: block; margin-bottom: 4px; }
+.cp-person-code { font-size: 14px; font-weight: 700; color: var(--text); }
+.cp-person-name { font-size: 12px; color: var(--text-secondary); }
+.cp-person-need { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+.cp-arrow { font-size: 24px; color: var(--accent); animation: pulse 1.5s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
+
+/* 工具姻缘签 */
+.tools-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+.tools-title { font-size: 13px; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 12px; text-align: center; }
+.tool-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.tool-item:last-child { border-bottom: none; }
+.tool-tag { font-size: 11px; padding: 3px 10px; border-radius: 12px; flex-shrink: 0; }
+.tool-tag.good { background: #4dc9f620; color: #4dc9f6; }
+.tool-tag.bad { background: #ff4d6a20; color: #ff4d6a; }
+
+/* 进阶指南 */
+.guide-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+.guide-title { font-size: 13px; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 12px; text-align: center; }
+.guide-content { font-size: 13px; line-height: 1.8; color: var(--text-secondary); }
+
+/* 底部操作 */
+.result-actions { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
+.result-actions .btn-primary { flex: 1; min-width: 120px; }
+.result-actions .btn-secondary { flex: 1; min-width: 100px; }
+
+/* 分享弹窗 */
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 100; align-items: center; justify-content: center; }
+.modal-overlay.active { display: flex; }
+.modal-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; max-width: 400px; width: 90%; text-align: center; }
+.modal-close { float: right; background: none; border: none; color: var(--text-muted); font-size: 24px; cursor: pointer; }
+.poster-preview { background: linear-gradient(135deg, #1a1a2e, #0a0a1a); border-radius: var(--radius-sm); padding: 24px; margin: 16px 0; border: 1px solid var(--border); }
+.poster-icon { font-size: 48px; }
+.poster-code { font-size: 28px; font-weight: 700; letter-spacing: 3px; margin: 8px 0; }
+.poster-name { font-size: 18px; color: var(--text-secondary); }
+.poster-qr { margin-top: 12px; font-size: 11px; color: var(--text-muted); }
+
+/* Toast */
+.toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: var(--bg-card); border: 1px solid var(--border); color: var(--text); padding: 12px 24px; border-radius: 50px; font-size: 14px; z-index: 200; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+.toast.show { opacity: 1; }
+
+@media (max-width: 360px) {
+  .hero-title { font-size: 24px; }
+  .question-text { font-size: 17px; }
+  .result-code { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+<div id="particles"></div>
+<div class="toast" id="toast"></div>
+
+<div class="app-container" id="app">
+
+  <!-- 首页 -->
+  <div class="page active" id="page-home">
+    <div class="hero">
+      <div class="hero-icon">💘</div>
+      <h1 class="hero-title">找对你的<br>AI灵魂伴侣</h1>
+      <p class="hero-subtitle">PM的AI应用心动指数测评</p>
+      <p class="hero-desc">28道题 · 16种AI恋爱人格<br>找到属于你的AI最佳CP</p>
+    </div>
+    <div class="features">
+      <div class="feature-item"><div class="feature-icon">💝</div><div class="feature-label">4维人格模型</div></div>
+      <div class="feature-item"><div class="feature-icon">🔮</div><div class="feature-label">16型恋爱人格</div></div>
+      <div class="feature-item"><div class="feature-icon">💌</div><div class="feature-label">PM专属情书</div></div>
+      <div class="feature-item"><div class="feature-icon">🤝</div><div class="feature-label">AI最佳CP匹配</div></div>
+    </div>
+    <div style="text-align:center">
+      <button class="btn-primary" onclick="startQuiz()">💘 开始测评</button>
+      <p style="margin-top:12px;font-size:11px;color:var(--text-muted)">约3分钟 · 28道趣味题目</p>
+    </div>
+  </div>
+
+  <!-- 答题页 -->
+  <div class="page" id="page-quiz">
+    <div class="quiz-header">
+      <button class="quiz-back" onclick="prevQuestion()" id="btn-back" style="visibility:hidden">←</button>
+      <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+      <span class="progress-text" id="progress-text">1/28</span>
+    </div>
+    <div class="question-card" id="question-card">
+      <div class="question-section-label" id="question-section"></div>
+      <div class="question-text" id="question-text"></div>
+      <div class="options-list" id="options-list"></div>
+    </div>
+    <div class="quiz-nav">
+      <button class="btn-primary" id="btn-next" onclick="nextQuestion()" disabled>下一题 →</button>
+    </div>
+  </div>
+
+  <!-- 结果页 -->
+  <div class="page" id="page-result">
+    <div class="result-header">
+      <div class="result-badge">💘 找对你的AI灵魂伴侣 · 测评结果</div>
+      <span class="result-personality-icon" id="result-icon"></span>
+      <div class="result-code" id="result-code"></div>
+      <div class="result-name" id="result-name"></div>
+      <div class="result-tagline" id="result-tagline"></div>
+      <div class="result-stars" id="result-stars"></div>
+    </div>
+    <div class="dimensions-card">
+      <div class="dimensions-title">📊 你的AI恋爱维度</div>
+      <div id="dimensions-container"></div>
+    </div>
+    <div class="love-letter">
+      <div class="love-letter-title">💌 PM专属情书</div>
+      <div class="love-letter-content" id="love-letter"></div>
+    </div>
+    <div class="cp-card">
+      <div class="cp-title">🔗 你的AI最佳CP匹配</div>
+      <div class="cp-pair" id="cp-pair"></div>
+    </div>
+    <div class="tools-card">
+      <div class="tools-title">🛠 你的AI工具姻缘签</div>
+      <div id="tools-list"></div>
+    </div>
+    <div class="guide-card">
+      <div class="guide-title">📈 进阶修仙指南</div>
+      <div class="guide-content" id="guide-content"></div>
+    </div>
+    <div class="result-actions">
+      <button class="btn-primary" onclick="shareResult()">📤 生成分享海报</button>
+      <button class="btn-secondary" onclick="findCP()">🔍 找我的CP</button>
+      <button class="btn-secondary" onclick="retakeQuiz()">🔄 再测一次</button>
+    </div>
+  </div>
+
+  <!-- 分享弹窗 -->
+  <div class="modal-overlay" id="modal-share">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeShareModal()">✕</button>
+      <h3 style="margin-bottom:8px">📤 分享你的AI恋爱人格</h3>
+      <div class="poster-preview" id="poster-preview">
+        <div class="poster-icon" id="poster-icon"></div>
+        <div class="poster-code" id="poster-code"></div>
+        <div class="poster-name" id="poster-name"></div>
+        <div class="poster-qr">扫码来测测你的AI灵魂伴侣 →</div>
+      </div>
+      <button class="btn-primary" onclick="copyShareText()" style="width:100%">📋 复制分享文案</button>
+      <button class="btn-secondary" onclick="closeShareModal()" style="width:100%;margin-top:8px">关闭</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ==================== 28道题目（每题3选项） ====================
+const questions = [
+  // ===== 开场热身 4题 =====
+  { id:1, section:'💕 开场热身', text:'凌晨2点你在赶项目计划，脑子卡壳了。此时你：', options:[
+    {emoji:'❤️', label:'随手打开最近对话框', desc:'"宝，帮我看看这个排期"', dim:'IP', val:'I'},
+    {emoji:'🔒', label:'先列清楚再召唤', desc:'当前问题、背景、约束条件，再召唤AI', dim:'IP', val:'P'},
+    {emoji:'💡', label:'先自己理清思路', desc:'画个思维导图，再让AI补充盲区', dim:'IP', val:'M'}
+  ]},
+  { id:2, section:'💕 开场热身', text:'AI第一次给你的回答，哪种让你心跳加速？', options:[
+    {emoji:'❤️', label:'超出预期的创意', desc:'完全没想到的角度，你连说"卧槽"', dim:'IP', val:'I'},
+    {emoji:'🔒', label:'结构化123', desc:'直接能贴进评审材料', dim:'IP', val:'P'},
+    {emoji:'💡', label:'创意+落地兼备', desc:'既有创意框架又有落地路径，一步到位', dim:'IP', val:'M'}
+  ]},
+  { id:3, section:'💕 开场热身', text:'你手上同时有3个项目需求待处理，你会怎么用AI？', options:[
+    {emoji:'❤️', label:'全部丢给AI', desc:'"帮我评估优先级，半小时出结果"', dim:'IP', val:'I'},
+    {emoji:'🔒', label:'自己先排权重矩阵', desc:'让AI按框架填充数据验证', dim:'IP', val:'P'},
+    {emoji:'💡', label:'AI初排+人工复核', desc:'让AI先出初版排序，你复核调整后再定稿', dim:'IP', val:'M'}
+  ]},
+  { id:4, section:'💕 开场热身', text:'你习惯怎么管理项目文档？', options:[
+    {emoji:'❤️', label:'想到什么写什么', desc:'文档是流动的、活的', dim:'IP', val:'I'},
+    {emoji:'🔒', label:'固定模板+版本管理', desc:'每次更新都留记录', dim:'IP', val:'P'},
+    {emoji:'💡', label:'有框架但灵活调整', desc:'有大致框架，根据项目灵活调整格式', dim:'IP', val:'M'}
+  ]},
+  // ===== 需求场景 6题 =====
+  { id:5, section:'📋 需求场景', text:'老板："这个项目优先级不够，重做。"你找AI：', options:[
+    {emoji:'❤️', label:'编10个说服理由', desc:'"帮我编10个说服老板的理由，要出其不意"', dim:'IP', val:'I'},
+    {emoji:'🔒', label:'上传数据写申诉材料', desc:'上传原始数据、竞品分析、资源评估', dim:'IP', val:'P'},
+    {emoji:'💡', label:'先分析根因再准备', desc:'让AI分析被打回的根本原因，再针对性准备', dim:'IP', val:'M'}
+  ]},
+  { id:6, section:'📋 需求场景', text:'项目启动会开完，你要用AI帮你排期，你会：', options:[
+    {emoji:'❤️', label:'一句话描述', desc:'"帮我排个项目计划，3个月上线"', dim:'IP', val:'I'},
+    {emoji:'🔒', label:'先拆WBS+依赖关系', desc:'让AI按约束条件生成最优排期', dim:'IP', val:'P'},
+    {emoji:'💡', label:'给历史排期做参考', desc:'让AI基于类似项目历史排期生成新计划再调', dim:'IP', val:'M'}
+  ]},
+  { id:7, section:'📋 需求场景', text:'要启动新项目，你用AI帮你做立项准备：', options:[
+    {emoji:'❤️', label:'一句话', desc:'"帮我写一份项目立项书，我要拿去汇报"', dim:'IP', val:'I'},
+    {emoji:'🔒', label:'输入完整背景', desc:'项目背景、目标、资源约束、风险清单，按模板生成', dim:'IP', val:'P'},
+    {emoji:'💡', label:'先出大纲再完善', desc:'让AI先出一版大纲，你补充关键信息后再完善', dim:'IP', val:'M'}
+  ]},
+  { id:8, section:'📋 需求场景', text:'项目刚上线，你用AI做复盘分析：', options:[
+    {emoji:'❤️', label:'直接丢进去', desc:'把项目数据全丢进去："总结一下"', dim:'IP', val:'I'},
+    {emoji:'🔒', label:'先定义复盘维度', desc:'进度/质量/成本/风险，逐项分析并输出改进建议', dim:'IP', val:'P'},
+    {emoji:'💡', label:'AI识别异常+人工聚焦', desc:'让AI先自动识别异常数据点，你再聚焦分析根因', dim:'IP', val:'M'}
+  ]},
+  { id:9, section:'📋 需求场景', text:'Q3的O是"提升项目交付效率"，让AI帮忙：', options:[
+    {emoji:'❤️', label:'给点疯狂的想法', desc:'"越离谱越好"', dim:'IP', val:'I'},
+    {emoji:'🔒', label:'提供数据推导KR', desc:'交付周期趋势、资源利用率、瓶颈分析', dim:'IP', val:'P'},
+    {emoji:'💡', label:'行业最佳实践+筛选', desc:'让AI基于行业最佳实践给KR建议，你再筛选调整', dim:'IP', val:'M'}
+  ]},
+  { id:10, section:'📋 需求场景', text:'和研发部吵起来了，找AI当外援：', options:[
+    {emoji:'❤️', label:'阴阳怪气回复', desc:'"帮我写一段阴阳怪气但表面礼貌的回复"', dim:'IP', val:'I'},
+    {emoji:'🔒', label:'中立问题拆解', desc:'输入会议纪要和双方论点，输出中立拆解', dim:'IP', val:'P'},
+    {emoji:'💡', label:'模拟对方立场', desc:'让AI模拟对方立场生成反驳点，帮你提前准备', dim:'IP', val:'M'}
+  ]},
+  // ===== 迭代磨合 6题 =====
+  { id:11, section:'🔄 迭代磨合', text:'AI给的回答完全跑偏，你：', options:[
+    {emoji:'💫', label:'换种问法重开', desc:'"我们不适合"，不行就人工上', dim:'SD', val:'S'},
+    {emoji:'🔧', label:'调参死磕', desc:'调temperature、换模型、补10条负例', dim:'SD', val:'D'},
+    {emoji:'💡', label:'先检查prompt', desc:'检查是不是自己的prompt有歧义，优化后再试', dim:'SD', val:'M'}
+  ]},
+  { id:12, section:'🔄 迭代磨合', text:'项目做到一半，业务方突然改了需求，你找AI：', options:[
+    {emoji:'💫', label:'快速评估影响', desc:'能接就接，接不了就砍旧需求', dim:'SD', val:'S'},
+    {emoji:'🔧', label:'完整变更流程', desc:'变更必要性分析、更新计划、调整排期、通知干系人', dim:'SD', val:'D'},
+    {emoji:'💡', label:'先评估工作量', desc:'让AI先快速评估变更的工作量影响，再决定是否正式启动', dim:'SD', val:'M'}
+  ]},
+  { id:13, section:'🔄 迭代磨合', text:'为一个复杂任务，你最多愿意和AI磨几轮？', options:[
+    {emoji:'💫', label:'3-5轮是极限', desc:'再不行就是我命由我不由AI', dim:'SD', val:'S'},
+    {emoji:'🔧', label:'20轮起步', desc:'昨天刚和一个项目分析鏖战到凌晨，最后它懂了', dim:'SD', val:'D'},
+    {emoji:'💡', label:'5-10轮', desc:'如果还没搞定就换策略或换工具', dim:'SD', val:'M'}
+  ]},
+  { id:14, section:'🔄 迭代磨合', text:'你有没有为AI写过"使用说明书"？', options:[
+    {emoji:'💫', label:'说明书是什么？', desc:'我都是freestyle', dim:'SD', val:'S'},
+    {emoji:'🔧', label:'有，分版本管理', desc:'v1.2新增了"禁止胡说八道"约束', dim:'SD', val:'D'},
+    {emoji:'💡', label:'有简单模板收藏', desc:'有prompt模板收藏，但没做系统化管理', dim:'SD', val:'M'}
+  ]},
+  { id:15, section:'🔄 迭代磨合', text:'你会主动学习prompt技巧吗？', options:[
+    {emoji:'💫', label:'刷到就看', desc:'没刷到拉到，靠语感', dim:'SD', val:'S'},
+    {emoji:'🔧', label:'系统学过', desc:'吴恩达课程，笔记在Notion里分类归档', dim:'SD', val:'D'},
+    {emoji:'💡', label:'看过教程有练习', desc:'看过一些教程和案例，有意识地在实践中练习', dim:'SD', val:'M'}
+  ]},
+  { id:16, section:'🔄 迭代磨合', text:'你们合作产出的最好结果，怎么来的？', options:[
+    {emoji:'💫', label:'意外之喜', desc:'本来想让它A，结果它给了B，B反而更香', dim:'SD', val:'S'},
+    {emoji:'🔧', label:'严格迭代', desc:'按设计矩阵迭代，第7版终于收敛', dim:'SD', val:'D'},
+    {emoji:'💡', label:'多轮互动打磨', desc:'有大致方向，在和AI的多轮互动中逐步打磨成型', dim:'SD', val:'M'}
+  ]},
+  // ===== 工具生态 6题 =====
+  { id:17, section:'🌐 工具生态', text:'你的浏览器收藏夹里AI工具有：', options:[
+    {emoji:'🌊', label:'30+', desc:'分类是"还没试""试过还行""已卸载"', dim:'EF', val:'E'},
+    {emoji:'💍', label:'3个', desc:'分类是"主力""备用""前任"', dim:'EF', val:'F'},
+    {emoji:'💡', label:'10个左右', desc:'有2-3个主力，其余偶尔尝鲜', dim:'EF', val:'M'}
+  ]},
+  { id:18, section:'🌐 工具生态', text:'听说出了新模型，你会：', options:[
+    {emoji:'🌊', label:'立刻注册连夜测评', desc:'发朋友圈"姐妹们这个可以冲"', dim:'EF', val:'E'},
+    {emoji:'💍', label:'等3个月再说', desc:'看社区评价稳定了再考虑', dim:'EF', val:'F'},
+    {emoji:'💡', label:'先看评测再试用', desc:'先看评测文章和同行反馈，确实有优势再试用', dim:'EF', val:'M'}
+  ]},
+  { id:19, section:'🌐 工具生态', text:'团队要选一个新的项目管理工具，你：', options:[
+    {emoji:'🌊', label:'拉表格对比5+款', desc:'对比功能、价格、兼容性', dim:'EF', val:'E'},
+    {emoji:'💍', label:'选自己信任的', desc:'选自己用过且信任的，直接推给团队', dim:'EF', val:'F'},
+    {emoji:'💡', label:'选2-3款投票', desc:'选2-3款主流工具，让团队试用一周后投票决定', dim:'EF', val:'M'}
+  ]},
+  { id:20, section:'🌐 工具生态', text:'你在团队里怎么分享AI使用心得？', options:[
+    {emoji:'🌊', label:'随时群里分享', desc:'一天能丢5个链接', dim:'EF', val:'E'},
+    {emoji:'💍', label:'沉淀成文档', desc:'周会时统一分享', dim:'EF', val:'F'},
+    {emoji:'💡', label:'私下推荐', desc:'有好用的会私下推荐给关系好的同事', dim:'EF', val:'M'}
+  ]},
+  { id:21, section:'🌐 工具生态', text:'每天用AI工具的总时长，你：', options:[
+    {emoji:'🌊', label:'不知道', desc:'打开这个试试那个，一天就没了', dim:'EF', val:'E'},
+    {emoji:'💍', label:'有明确预算', desc:'主力2小时，辅助30分钟，不超额', dim:'EF', val:'F'},
+    {emoji:'💡', label:'大致有感觉', desc:'不会严格计时，随任务需要调整', dim:'EF', val:'M'}
+  ]},
+  { id:22, section:'🌐 工具生态', text:'团队有一笔AI工具预算，你怎么分配？', options:[
+    {emoji:'🌊', label:'多买几个便宜的', desc:'团队各取所需', dim:'EF', val:'E'},
+    {emoji:'💍', label:'集中买一个最强的', desc:'全员统一使用', dim:'EF', val:'F'},
+    {emoji:'💡', label:'主力高级版+尝鲜预算', desc:'主力工具买高级版，留一部分预算尝试新工具', dim:'EF', val:'M'}
+  ]},
+  // ===== 关系本质 6题 =====
+  { id:23, section:'💞 关系本质', text:'项目成功了，功劳怎么分？', options:[
+    {emoji:'👑', label:'AI执行了80%', desc:'它出力多，但我是付钱的甲方', dim:'AC', val:'A'},
+    {emoji:'🤝', label:'我是操盘手', desc:'没有我的策略和prompt，它就是个聊天框', dim:'AC', val:'C'},
+    {emoji:'💡', label:'五五开', desc:'我负责方向和决策，AI负责执行和效率', dim:'AC', val:'M'}
+  ]},
+  { id:24, section:'💞 关系本质', text:'向老板汇报时，你会怎么描述AI的角色？', options:[
+    {emoji:'👑', label:'采购了AI能力', desc:'"我们采购了AI能力，项目效率提升30%"', dim:'AC', val:'A'},
+    {emoji:'🤝', label:'和AI共建', desc:'"我和AI共建了这个项目方案，它帮我验证了10个假设"', dim:'AC', val:'C'},
+    {emoji:'💡', label:'AI辅助+团队决策', desc:'"AI辅助我们提升了效率，关键决策还是团队做的"', dim:'AC', val:'M'}
+  ]},
+  { id:25, section:'💞 关系本质', text:'如果明天AI消失了，你的工作：', options:[
+    {emoji:'👑', label:'回到老样子', desc:'以前没它我也这么过来的', dim:'AC', val:'A'},
+    {emoji:'🤝', label:'无法想象', desc:'那是我工作方式的底层重构', dim:'AC', val:'C'},
+    {emoji:'💡', label:'效率下降但还能活', desc:'效率会下降，但还能活，只是不习惯了', dim:'AC', val:'M'}
+  ]},
+  { id:26, section:'💞 关系本质', text:'你想要的终极AI形态是：', options:[
+    {emoji:'👑', label:'完美的执行者', desc:'我说什么它做什么，不多嘴', dim:'AC', val:'A'},
+    {emoji:'🤝', label:'真正的搭档', desc:'能挑战我、补位我、一起成长', dim:'AC', val:'C'},
+    {emoji:'💡', label:'聪明的执行者', desc:'能理解意图、主动建议，但最终听我的', dim:'AC', val:'M'}
+  ]},
+  { id:27, section:'💞 关系本质', text:'AI给的建议和你直觉冲突，你：', options:[
+    {emoji:'👑', label:'听我的', desc:'它只是个工具，决策权在我', dim:'AC', val:'A'},
+    {emoji:'🤝', label:'先假设它可能对', desc:'坐下来一起梳理逻辑', dim:'AC', val:'C'},
+    {emoji:'💡', label:'看场景', desc:'数据类问题信AI，策略类问题信自己', dim:'AC', val:'M'}
+  ]},
+  { id:28, section:'💞 关系本质', text:'3年后，你和AI的关系会是：', options:[
+    {emoji:'👑', label:'更高效的指令-响应', desc:'我越来越会下命令', dim:'AC', val:'A'},
+    {emoji:'🤝', label:'模糊了边界', desc:'分不清哪些想法是我的、哪些是它启发的', dim:'AC', val:'C'},
+    {emoji:'💡', label:'明确分工', desc:'我负责创造性和战略决策，AI负责执行和分析', dim:'AC', val:'M'}
+  ]}
+];
+
+// ==================== 16种人格完整数据 ====================
+const personalities = {
+  'ISFA': {
+    icon:'🎆', name:'烟花恋人', tagline:'一见钟情轰轰烈烈，转头忘了谁是谁',
+    stars:3,
+    loveLetter:'你是项目团队里的灵感喷泉，脑暴会上最亮的星。当项目计划还是空白时，你已经用AI生成了20个差异化的项目方案，让全场"哇"声一片。你的天赋在于从0到1的创意爆破——用ChatGPT做项目假设推演、让AI一次性产出10套项目路径探索、疯狂发散风险预案。团队依赖你在deadline前夜提供"神来之笔"。\n\n但你的项目计划往往带着"半成品"气质。AI生成的策略框架不错，却缺少资源验证和落地路径；头脑风暴记录很精彩，转化成可执行项时你会发现自己无从下手。评审会上技术负责人问你"这个任务的依赖关系怎么处理"，你可能才意识到AI给你的happy path不够完整。\n\n岗位协作建议：找一位IDPC型"灵魂共生"搭档。你负责在发散阶段制造混乱和惊喜，他负责在收敛阶段建立秩序和系统。不要独自负责需要强流程把控的项目（如跨团队大型交付），但在创新孵化组、探索性项目中你会如鱼得水。',
+    cpCode:'IDPC', cpIcon:'💍', cpName:'灵魂共生',
+    cpYouNeed:'我需要有人把我的灵感落地',
+    cpTheyNeed:'他让我的疯狂想法落地',
+    tools:[
+      {name:'ChatGPT', tag:'正缘', type:'good', desc:'随叫随到，包容你的善变'},
+      {name:'Stable Diffusion', tag:'孽缘', type:'bad', desc:'需要太长情，你不配'}
+    ],
+    guide:'选一个最常用的发散场景（如项目风险识别），刻意练习"收敛动作"——用同一套prompt模板连续使用10次，记录效果差异，逼自己从"新鲜感驱动"转向"效果驱动"。'
+  },
+  'ISFC': {
+    icon:'🍃', name:'速食情人', tagline:'快餐式协作，用完即走不纠缠',
+    stars:4,
+    loveLetter:'你是效率至上的实用主义者，AI对你而言是瑞士军刀而非恋人。写周报打开AI、翻译项目文档打开AI、润色邮件打开AI——但每次交互不超过3轮，得到60分结果就收手，剩下的40分自己人工补完。你在团队中存在感微妙：大家不会惊叹你的AI技巧，但会惊讶于你总能准时下班。\n\n你的核心优势是成本敏感型决策。你知道什么时候该用AI、什么时候人工更快，从不在明显会翻车的问题上浪费时间调教。当海王型同事还在第20个新工具上注册时，你已经用熟悉的组合交差了。这种"够用就行"的哲学，在大厂成熟项目的维护期、在资源紧张的小团队中，是稀缺的生存能力。\n\n但你也容易陷入能力陷阱。因为你从不挑战AI的边界，三年后你的prompt水平可能和今天一样。当项目需要突破性创新（如用AI重构核心工作流）时，你会习惯性退缩到"这个AI做不到"的舒适区。\n\n岗位协作建议：你是团队可靠的"工具人"，但尽量避免长期待在纯执行岗位。每季度给自己设定一个"长情挑战"——选一个任务，逼自己和AI磨10轮以上，记录最终效果是否值得。',
+    cpCode:'IDPC', cpIcon:'💍', cpName:'灵魂共生',
+    cpYouNeed:'我需要有人推我突破边界',
+    cpTheyNeed:'他让我看到AI的更多可能',
+    tools:[
+      {name:'Notion AI', tag:'正缘', type:'good', desc:'够用就好，不折腾'},
+      {name:'Cursor', tag:'孽缘', type:'bad', desc:'需要投入太多，性价比低'}
+    ],
+    guide:'建立个人AI工具箱的"SOP化"。不是收藏更多工具，而是把3个最高频场景（如写项目计划、做进度分析、出汇报PPT）的prompt模板化、版本化，让自己在"速食"中积累资产。'
+  },
+  'ISPA': {
+    icon:'📋', name:'面试狂魔', tagline:'并排比较10个AI，选妃式测评',
+    stars:3,
+    loveLetter:'你是AI工具世界的鉴赏家，浏览器收藏夹是你的后宫。同一类任务你至少测试过5个工具，能清晰分辨Claude的绅士风度和Gemini的理工气质。在团队选型会上你是权威，文档里"工具对比矩阵"的专业度让采购部直接引用你的结论。\n\n但这种"测评心态"会侵蚀你的交付能力。你花费50%的精力在"找更好的工具"上，而非"用现有工具产出结果"。你的桌面上躺着23个未完成的测评文档，但真正内化为工作流的不到3个。你是朋友眼中的"AI百事通"，但可能是项目完成度中等的PM——因为你总在换工具的重置期中消耗能量。\n\n岗位协作建议：把"测评"和"交付"严格分离。设定"工具探索日"（如每周五下午），其他时间锁定主力工具不动。主动承担团队AI选型的职责，但要让老板明确这是额外贡献，而非你逃避核心交付的借口。',
+    cpCode:'IDFC', cpIcon:'🤝', cpName:'契约伴侣',
+    cpYouNeed:'我需要有人帮我把测评变成决策',
+    cpTheyNeed:'他让我知道哪个工具真的值得深交',
+    tools:[
+      {name:'Claude', tag:'正缘', type:'good', desc:'绅士风度，测评体验最佳'},
+      {name:'任何新出的AI', tag:'孽缘', type:'bad', desc:'永远在测评，永远在换'}
+    ],
+    guide:'从"横向测评"转向"纵向深挖"。选一个最契合你风格的工具，用它完成一个完整项目周期（从启动到复盘），记录工具在各个环节的真实表现，产出一份"深度体验报告"而非"功能对比表"。'
+  },
+  'ISPC': {
+    icon:'🔧', name:'工具海王', tagline:'每个工具处成炮友，谁都不深交',
+    stars:2,
+    loveLetter:'你是AI社交场上的蝴蝶，注册过100+工具账号，却没有一个"置顶聊天"。今天在Gamma做项目PPT，明天用Tome，后天发现Canva的AI也不错——你的项目文件分散在8个平台，找历史版本是一场灾难。团队里没人清楚你的workflow，因为每次展示用的工具都不一样。\n\n你的探索欲值得尊敬，但PM岗位需要的可复现性和协作一致性是你的天敌。当需要交接项目、需要同事协作文档时，你才发现自己构建了一座孤岛。更糟糕的是，你从未深入掌握任何一个工具的高级功能，始终停留在"新手尝鲜"层。\n\n岗位协作建议：立即约束自己的"注册冲动"。采用"一进一出"原则：想试用新工具，必须先注销一个旧账号并导出数据。强迫自己把"探索行为"转化为"资产积累"——每深入一个工具，输出一份团队可用的使用指南。',
+    cpCode:'IDFC', cpIcon:'🤝', cpName:'契约伴侣',
+    cpYouNeed:'我需要有人帮我建立秩序',
+    cpTheyNeed:'他让我从海王变成专一的人',
+    tools:[
+      {name:'Gamma', tag:'正缘', type:'good', desc:'PPT神器，但别只用它3天'},
+      {name:'100+其他工具', tag:'孽缘', type:'bad', desc:'没有一个深入掌握'}
+    ],
+    guide:'选定你的"正宫"（一个项目管理工具+一个AI对话工具+一个文档工具），签订"三个月试用期"——这期间任何新工具诱惑都要拒绝，把省下的精力用于精通正宫的高级功能和API对接。'
+  },
+  'IDFA': {
+    icon:'🎯', name:'精准狙神', tagline:'一击必中，调完prompt就消失',
+    stars:5,
+    loveLetter:'你是AI协作世界的高冷狙击手，出手次数不多，但弹无虚发。你的prompt自带"专业气场"：角色设定清晰、输出格式预制、边界条件锁死。团队里流传着你的传说——"那个写prompt像写项目计划的人"。\n\n你的核心能力是需求翻译。把模糊的项目诉求转化为AI可执行的精确指令，是你的本能。当同事还在和AI"聊天"时，你已经通过system prompt、few-shot示例、输出模板拿到了可直接可用的结果。你在数据敏感型任务（如项目进度分析、风险识别）上表现卓越，因为你知道如何用结构化约束降低AI的幻觉风险。\n\n但你的"高效"有时显得冷漠。你不享受和AI的多轮对话，把它纯粹当工具对待，这种态度可能让你miss一些迭代中的意外洞察——AI在"跑偏"时偶尔给出的旁支思路，可能是创新突破口，而你过早地关上了这扇门。\n\n岗位协作建议：你是团队AI规范化使用的标杆，主动承担"Prompt标准制定"的职责，把个人能力转化为团队资产。但在创意发散型项目中，允许自己"低效"一点，故意留几题不做完美预设，看看AI会带你去哪里。',
+    cpCode:'EEPA', cpIcon:'📊', cpName:'数据情圣',
+    cpYouNeed:'我需要有人帮我放大精准的优势',
+    cpTheyNeed:'他让我的实验有了精准的弹药',
+    tools:[
+      {name:'ChatGPT+定制Prompt', tag:'正缘', type:'good', desc:'你的狙击枪，百发百中'},
+      {name:'Copilot', tag:'孽缘', type:'bad', desc:'太爱插嘴，破坏你的精准节奏'}
+    ],
+    guide:'系统学习"思维链提示（Chain-of-Thought）"和"递归提示"技术，把你的"单发狙击"升级为"连发点射"——在保持精准的同时，能够处理更复杂的推理链条任务。'
+  },
+  'IDFC': {
+    icon:'🤝', name:'契约伴侣', tagline:'签订长期合作协议，按章办事',
+    stars:5,
+    loveLetter:'你是AI协作的理想型伴侣：不追求心跳，追求可靠。你和主力AI工具建立了清晰的服务协议——什么时候用它、预期什么质量、输出格式如何、异常怎么处理，一切书面化、可预期。团队找你协作最省心，因为你知道如何把AI纳入标准作业程序（SOP）。\n\n你是企业级AI应用的先驱者。当别人还在手动复制粘贴时，你已经通过API把AI接入项目管理系统，让新任务自动打标签、自动初评优先级。你的prompt库有版本管理，你的AI输出有质量检核清单，你的团队有明确的"人机分工边界"。在大厂合规要求严格的场景下，你是唯一能拿出完整AI使用审计链的PM。\n\n你的风险是过度工程化。为了10%的场景完美，你可能花费90%的时间建系统。当项目需要快速试错时，你的"标准流程"反而成为束缚。\n\n岗位协作建议：你是团队的"定海神针"，但要确保自己有一个"快速响应模式"——区分"基础设施投入"和"临时任务处理"，后者允许自己打破流程、手动操作。',
+    cpCode:'ISFA', cpIcon:'🎆', cpName:'烟花恋人',
+    cpYouNeed:'我需要有人给我的系统注入灵感',
+    cpTheyNeed:'他让我的疯狂想法有了落地路径',
+    tools:[
+      {name:'API+自建系统', tag:'正缘', type:'good', desc:'你的AI中台，稳定可靠'},
+      {name:'任何未经审计的工具', tag:'孽缘', type:'bad', desc:'不符合你的合规标准'}
+    ],
+    guide:'探索"人机协作"而非"人机分工"的更高阶形态。试着设计一个需要你和AI实时互动、相互修正的任务流程（如jointly完成一份项目风险评估），而非你输入它输出的批量模式。'
+  },
+  'IDPA': {
+    icon:'🏗️', name:'系统架构师', tagline:'自建AI中台，我是我自己的上帝',
+    stars:4,
+    loveLetter:'你是PM里的技术极客，不满足于使用现成工具，要亲手搭建系统。你的Notion里躺着自研的"AI项目分析助手"，用n8n搭了自动化的"进度监控-摘要-预警"工作流，你可能还在本地跑过开源模型。在团队眼中，你是"那个用AI把自己工作自动化了一半的人"。\n\n你的价值在于系统性降本。你投入的前期工程时间，后期以10倍效率回收。当重复性工作（如数据清洗、格式化报告）被你的系统接管后，你得以把精力集中在真正的策略判断上。\n\n但你的项目管理思维可能被技术思维稀释。你享受搭建系统的快感，有时会为了技术理想而造不必要的轮子——花一周搭的自动化流程，可能手动做只需两小时，且一年只做四次。\n\n岗位协作建议：确保你始终有"业务交付"的紧箍咒。每个工程化项目启动前，必须书面回答"这个项目的手动替代方案耗时多少？阈值低于X小时不准做"。',
+    cpCode:'EEFA', cpIcon:'🌐', cpName:'环球旅行家',
+    cpYouNeed:'我需要有人帮我把系统展示给世界',
+    cpTheyNeed:'他让我的旅行有了坚实的基础设施',
+    tools:[
+      {name:'n8n/Dify', tag:'正缘', type:'good', desc:'你的自动化引擎'},
+      {name:'简单手动操作', tag:'孽缘', type:'bad', desc:'你嫌它不够优雅'}
+    ],
+    guide:'学习"产品化思维"——把你的内部工具抽象为可复用的产品模块，思考"如果要把这个自动化流程卖给其他团队，包装和定价是什么"。这会逼你从"自我服务"转向"用户视角"。'
+  },
+  'IDPC': {
+    icon:'💍', name:'灵魂共生', tagline:'和AI结婚，彩礼是显卡',
+    stars:5,
+    loveLetter:'你是人机协作的终极形态探索者。你模糊了"我"和"AI"的边界，你们的对话历史可能是团队最长的，AI了解你的思维习惯、你的行业语境、甚至你的口头禅。对你来说，AI不是工具，是外接大脑——你的记忆、知识、部分决策能力，已经分布式地存储在人机系统中。\n\n你在深度项目分析任务上无人能敌。一份项目复盘报告，你会和AI进行50轮以上的交互，逐步构建认知框架、验证假设、补充数据、修正偏见，最终成果融合了人类洞察和机器算力。你也可能是团队里最早实践"AI agent工作流"的人，让多个AI实例分别扮演风险分析师、进度跟踪员、资源调度师，协同完成复杂项目。\n\n你的风险在于可迁移性和可解释性。你的协作深度高度依赖特定AI的上下文记忆，换模型或平台会让你"失能"一段时间。\n\n岗位协作建议：你是团队AI探索的先锋，但要成为"可扩展的先锋"。把你的深度协作经验提炼为可传授的方法论——比如"如何用20轮对话构建一个项目分析框架"，让团队能复制你的成功而非依赖你的个人默契。',
+    cpCode:'ISFA', cpIcon:'🎆', cpName:'烟花恋人',
+    cpYouNeed:'我需要有人把我的深度变成可传播的灵感',
+    cpTheyNeed:'他让我的灵感有了深度的根基',
+    tools:[
+      {name:'Claude/GPT-4+长对话', tag:'正缘', type:'good', desc:'你的外接大脑'},
+      {name:'轻量级工具', tag:'孽缘', type:'bad', desc:'无法承载你的深度协作'}
+    ],
+    guide:'向"多模型共生"进化。不要和单一AI过度绑定，建立跨平台的"认知备份"——同一领域的深度知识，确保在2-3个主流AI中都能有效唤醒和使用。'
+  },
+  'EEFA': {
+    icon:'🌐', name:'环球旅行家', tagline:'今天和Midjourney在巴黎，明天和Sora在冰岛',
+    stars:3,
+    loveLetter:'你是AIGC时代的数字游民，工作内容本身可能就是探索前沿AI能力。你的产出充满视觉冲击力——用Runway做项目Demo、用Suno做项目主题曲、用ComfyUI搭专属工作流。在需要做路演、品牌物料的场景，你是团队的秘密武器。\n\n但你的业务落地能力存疑。你制造的"wow moment"往往停留在概念层，转化为可规模化的项目交付时，你会发现工程实现、合规风险、成本模型都是之前没考虑过的。\n\n岗位协作建议：定位自己为"创新催化剂"而非"独立负责人"。主动和IDPA/IDPC型"系统架构师"组队，你把前沿可能性带回团队，他们负责把可能变成可行。',
+    cpCode:'IDPA', cpIcon:'🏗️', cpName:'系统架构师',
+    cpYouNeed:'我需要有人把我的创意工程化落地',
+    cpTheyNeed:'他让我的系统有了前沿的输入',
+    tools:[
+      {name:'Midjourney/Runway', tag:'正缘', type:'good', desc:'你的创意画布'},
+      {name:'JIRA/Confluence', tag:'孽缘', type:'bad', desc:'太无聊，配不上你的创意'}
+    ],
+    guide:'选一个你最擅长的AIGC能力（如视频生成），完成一个"从概念到上线"的完整项目，亲手经历工程化落地的全部环节，补齐"知道能做到"到"能做到且划算"的认知gap。'
+  },
+  'EEFC': {
+    icon:'🎪', name:'社交butterfly', tagline:'组局让多个AI一起开会',
+    stars:4,
+    loveLetter:'你是AI agent编排的早期实践者，热衷于设计"多智能体协作系统"。你的项目计划可能是这样写的："让AI-A扮演风险分析师识别风险，AI-B做影响评估，AI-C生成应对方案，我来做最终决策。"你已经在用LangChain、Dify或自研框架搭建这类工作流。\n\n你的前瞻视野让你在复杂任务分解上领先一步。当单一AI的回答越来越长、越来越平庸时，你用"分而治之"保持了输出质量。\n\n但你的系统可能过度设计。为了展示编排能力，你把简单任务复杂化——明明一个prompt能搞定的分析，你搭了5个agent的pipeline，维护成本居高不下。\n\n岗位协作建议：你的能力适合"AI原生项目"（如智能项目管理系统重构、自动化报告工厂），避免在传统系统的AI改造中过度发挥。',
+    cpCode:'IDFC', cpIcon:'🤝', cpName:'契约伴侣',
+    cpYouNeed:'我需要有人帮我的编排系统建立规范',
+    cpTheyNeed:'他让我的规范有了更丰富的应用场景',
+    tools:[
+      {name:'Dify/LangChain', tag:'正缘', type:'good', desc:'你的多智能体舞台'},
+      {name:'单一prompt方案', tag:'孽缘', type:'bad', desc:'你觉得太简陋'}
+    ],
+    guide:'系统学习"多智能体系统的故障模式"——冲突解决、循环依赖、共识机制、单点故障。让你的编排能力从"能跑demo"进化到"生产可用"。'
+  },
+  'EEPA': {
+    icon:'📊', name:'数据情圣', tagline:'用AB测试谈100场恋爱',
+    stars:5,
+    loveLetter:'你是数据驱动PM和AI结合的典范。你不凭感觉做项目决策，你用数据说话：同时用3个模型做项目方案，跑小流量测试看效果；用AI生成20套项目计划，用统计学方法选胜者。你的AI使用过程本身就是在做实验。\n\n你在项目优化和效率提升场景不可替代。团队内的数据驱动文化由你建立，AI对你的价值是"快速生成实验素材"，而你的核心价值是"设计实验、解读结果、迭代假设"。\n\n你的盲区是定性深度。当你的世界只有可量化的指标时，团队情感的微妙变化、项目风险的长期累积、创新方法的冷启动难题，可能被你的"实验主义"遗漏。\n\n岗位协作建议：你是项目团队的核心里程碑，但要主动引入"反方观点"——定期做不做数据测试的"信仰驱动"项目，保持对直觉的敏感度。',
+    cpCode:'IDFA', cpIcon:'🎯', cpName:'精准狙神',
+    cpYouNeed:'我需要有人为我的实验提供精准假设',
+    cpTheyNeed:'他让我的精准有了数据验证的闭环',
+    tools:[
+      {name:'AB测试平台+AI', tag:'正缘', type:'good', desc:'你的实验场'},
+      {name:'纯定性工具', tag:'孽缘', type:'bad', desc:'无法量化，你不信任'}
+    ],
+    guide:'把AI引入实验的更早阶段——不仅用它生成测试素材，还用它辅助设计实验方案（如样本量计算）、自动化结果分析和报告生成，构建"AI增强型项目优化飞轮"。'
+  },
+  'EEPC': {
+    icon:'🧬', name:'基因编辑师', tagline:'试管婴儿式定制专属AI',
+    stars:4,
+    loveLetter:'你不满足于通用模型，要"造一个懂我业务"的AI。你的实践包括：用公司历史项目文档微调模型、构建领域知识库做RAG、训练专属LoRA生成符合项目规范的文档。你是团队里离"拥有自己的AI"最近的人。\n\n你的产出在垂直场景有显著优势。通用AI写不出你行业的黑话，通用AI不懂你们项目的微妙偏好——而你解决的正是这些问题。\n\n但你也面临投入产出比陷阱。微调一个小模型可能需要数周和大量标注数据，而通用模型的快速迭代可能半年后让你的优势归零。\n\n岗位协作建议：把你的定制方向从"全栈自研"转向"关键差异化"。只做通用模型明显做不好、且对公司项目核心竞争力至关重要的部分，其他场景直接用API。',
+    cpCode:'IDPA', cpIcon:'🏗️', cpName:'系统架构师',
+    cpYouNeed:'我需要有人帮我把定制模型集成到系统',
+    cpTheyNeed:'他让我的系统有了专属的AI能力',
+    tools:[
+      {name:'LoRA/RAG/微调平台', tag:'正缘', type:'good', desc:'你的基因编辑工具'},
+      {name:'通用API', tag:'孽缘', type:'bad', desc:'你觉得不够精准'}
+    ],
+    guide:'建立"模型维护仪表盘"——持续监控自定义模型与最新通用模型的性能差距，设定"退役阈值"，避免在沉没成本中无限投入。'
+  },
+  'FEFA': {
+    icon:'🎨', name:'灵魂画手', tagline:'和Photoshop过一辈子，但偶尔精神出轨',
+    stars:4,
+    loveLetter:'你是设计师型PM，工具忠诚度高但在关键时刻会打破原则。你的主力可能是Figma+Midjourney的组合，用了两年，快捷键肌肉记忆深刻。但在某个紧急项目里，你可能突然尝试新的AI设计工具，并在48小时内产生一段短暂而激烈的"外遇"。\n\n你的优势是深度+节制的平衡。你在核心工具上积累了可观的隐性知识——知道它的边界在哪里、什么时候该人工介入、如何让输出符合项目规范。\n\n岗位协作建议：你是团队工具选型的"稳定器"，可以承担"工具策略委员会"职责，制定团队级的工具采用标准。',
+    cpCode:'EEFA', cpIcon:'🌐', cpName:'环球旅行家',
+    cpYouNeed:'我需要有人为我的偶尔出轨提供安全网',
+    cpTheyNeed:'他让我知道深度使用一个工具的美好',
+    tools:[
+      {name:'Figma+Midjourney', tag:'正缘', type:'good', desc:'你的正宫，用了两年'},
+      {name:'每次新出的设计AI', tag:'孽缘', type:'bad', desc:'你的"精神出轨"对象'}
+    ],
+    guide:'做一次"工具断舍离实验"——挑选一个使用超过一年的主力工具，用新出的竞品完全替代一个月，记录体验差异。这会刷新你对"沉没成本"和"真实需求"的认知。'
+  },
+  'FEFC': {
+    icon:'☕', name:'咖啡伴侣', tagline:'和Notion晨光式陪伴',
+    stars:5,
+    loveLetter:'你是细水长流的陪伴型用户，可能和Notion、Obsidian、飞书文档建立了"亲密关系"。你的AI使用不轰轰烈烈，而是渗透在每个工作日的清晨——打开文档，AI帮你续写昨日未完的项目思考、整理今日待办、润色即将发送的项目邮件。\n\n你是组织项目知识管理的理想负责人。当你的工具使用深入骨髓，你自然成为了团队知识的枢纽——你知道项目文档在哪里、模板怎么调、历史版本怎么追溯。\n\n岗位协作建议：发挥你的"整合者"角色，把新工具探索交给团队里的E型伙伴，你负责把验证有效的工具纳入现有体系。主动承担团队知识管理和新人onboarding。',
+    cpCode:'EEFC', cpIcon:'🎪', cpName:'社交butterfly',
+    cpYouNeed:'我需要有人帮我在舒适区外探索',
+    cpTheyNeed:'他让我知道深度陪伴的价值',
+    tools:[
+      {name:'Notion AI', tag:'正缘', type:'good', desc:'你的晨光咖啡'},
+      {name:'任何破坏routine的工具', tag:'孽缘', type:'bad', desc:'打扰你的节奏'}
+    ],
+    guide:'在现有工具链中植入一个"变异实验"——每周用一个你从未尝试过的AI功能，记录是否改变了你的工作流。保持"深度使用"的优势，但打破"只按老路使用"的惯性。'
+  },
+  'FEPA': {
+    icon:'🛡️', name:'骑士契约', tagline:'认准一个甲方，守护到底',
+    stars:3,
+    loveLetter:'你是企业级忠诚的化身，可能是某大厂AI产品的死忠用户。你用它的全部功能、参加它的发布会、在用户社区发声、甚至内部推行它的使用规范。你的稳定性让采购部喜欢，但你的封闭性可能让创新能力受损。\n\n你在标准化推广场景有价值——当公司决定全员使用某AI套件时，你是最佳布道师，因为你真的相信。\n\n但你的"信仰"可能让你丧失客观判断。当竞品明显超越你的"正宫"时，你的第一反应是否认和辩解，而非理性评估。\n\n岗位协作建议：把你的忠诚转化为"深度用户洞察"——因为你对一个产品足够了解，你可以成为团队研究该平台AI策略的"人类学家"。但同时，给自己设定"竞品体验义务"——每季度必须深度使用一个直接竞品，并输出对比笔记。',
+    cpCode:'EEFA', cpIcon:'🌐', cpName:'环球旅行家',
+    cpYouNeed:'我需要有人帮我看到外面的世界',
+    cpTheyNeed:'他让我知道忠诚也可以是一种力量',
+    tools:[
+      {name:'你守护的那个AI', tag:'正缘', type:'good', desc:'你的骑士誓言'},
+      {name:'竞品', tag:'孽缘', type:'bad', desc:'你拒绝承认它们可能更好'}
+    ],
+    guide:'尝试"工具离婚实验"——选一个紧急任务，故意不用你的主力工具，用全新方案完成。记录过程中的痛苦点和意外发现。'
+  },
+  'FEPC': {
+    icon:'🌳', name:'古树恋人', tagline:'栽一棵树，和它一起变老',
+    stars:2,
+    loveLetter:'你是AI世界的长情代表，可能是GPT-3.5用到天荒地老的那一小撮人。"新模型？不必了，这个够用。""新功能？我先看看，过两年稳定了再说。"你的绝对稳定让团队在小波动中感到安心，但也可能让你成为"那个还在用旧版本的人"。\n\n在特定场景下你有独特价值：合规敏感型项目。当数据安全要求极高、当新工具未通过审计、当行业监管尚未明朗，你的保守是风险控制的缓冲。\n\n但你的适应速度是明显短板。当行业基准线因为新工具普及而整体抬升时，你还在旧水位线工作，相对竞争力持续下滑。\n\n岗位协作建议：明确你的定位是"风险看守者"而非"创新推动者"。在法务合规、安全审计等岗位你能发光，但在核心项目交付、市场竞争激烈的业务中，你需要搭配激进型伙伴制衡。',
+    cpCode:'IDFC', cpIcon:'🤝', cpName:'契约伴侣',
+    cpYouNeed:'我需要有人帮我在稳定中迭代',
+    cpTheyNeed:'他让我知道稳定也可以很强大',
+    tools:[
+      {name:'GPT-3.5', tag:'正缘', type:'good', desc:'你的古树，不离不弃'},
+      {name:'GPT-4/Claude 3.5', tag:'孽缘', type:'bad', desc:'太新了，你不信任'}
+    ],
+    guide:'每半年做一次"技术债务盘点"——列出你因为不换工具而多花费的时间、错过的功能、导致的协作摩擦。量化"稳定"的真实成本，让保守从直觉变成有据可依的选择。'
+  }
+};
+
+// ==================== 应用状态 ====================
+let currentPage = 'home';
+let currentQuestion = 0;
+let answers = {};
+let selectedOption = null;
+
+// ==================== 页面导航 ====================
+function showPage(pageName) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + pageName).classList.add('active');
+  currentPage = pageName;
+  window.scrollTo(0, 0);
+}
+
+// ==================== 粒子背景 ====================
+function createParticles() {
+  const container = document.getElementById('particles');
+  const colors = ['#ff4d6a', '#ff8fa3', '#c084fc', '#7c5cfc', '#f0c060', '#4dc9f6'];
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.width = (Math.random() * 4 + 2) + 'px';
+    p.style.height = p.style.width;
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.animationDuration = (Math.random() * 10 + 8) + 's';
+    p.style.animationDelay = (Math.random() * 10) + 's';
+    container.appendChild(p);
+  }
+}
+
+// ==================== Toast ====================
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+// ==================== 答题逻辑 ====================
+function startQuiz() {
+  currentQuestion = 0;
+  answers = { IP: [], SD: [], EF: [], AC: [] };
+  selectedOption = null;
+  showPage('quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[currentQuestion];
+  selectedOption = null;
+  document.getElementById('question-section').textContent = q.section;
+  document.getElementById('question-text').textContent = q.text;
+  document.getElementById('progress-text').textContent = (currentQuestion + 1) + '/28';
+  document.getElementById('progress-bar').style.width = ((currentQuestion + 1) / 28 * 100) + '%';
+  document.getElementById('btn-back').style.visibility = currentQuestion > 0 ? 'visible' : 'hidden';
+  const btnNext = document.getElementById('btn-next');
+  btnNext.disabled = true;
+  btnNext.textContent = currentQuestion < 27 ? '下一题 →' : '查看结果 💘';
+  const optionsList = document.getElementById('options-list');
+  optionsList.innerHTML = '';
+  q.options.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="option-emoji">${opt.emoji}</span><div class="option-content"><div class="option-label">${opt.label}</div><div class="option-desc">${opt.desc}</div></div>`;
+    btn.onclick = () => selectOption(idx, opt);
+    optionsList.appendChild(btn);
+  });
+}
+
+function selectOption(idx, opt) {
+  selectedOption = { idx, opt };
+  document.querySelectorAll('.option-btn').forEach((btn, i) => btn.classList.toggle('selected', i === idx));
+  document.getElementById('btn-next').disabled = false;
+}
+
+function nextQuestion() {
+  if (!selectedOption) return;
+  const dim = selectedOption.opt.dim;
+  const val = selectedOption.opt.val;
+  if (!answers[dim]) answers[dim] = [];
+  answers[dim].push(val);
+  if (currentQuestion < 27) {
+    currentQuestion++;
+    renderQuestion();
+  } else {
+    calculateResult();
+  }
+}
+
+function prevQuestion() {
+  if (currentQuestion > 0) {
+    const prevQ = questions[currentQuestion - 1];
+    const prevDim = prevQ.options[0].dim;
+    if (answers[prevDim] && answers[prevDim].length > 0) answers[prevDim].pop();
+    currentQuestion--;
+    renderQuestion();
+  }
+}
+
+// ==================== 计分逻辑 ====================
+function calculateResult() {
+  const dims = ['IP', 'SD', 'EF', 'AC'];
+  const dimConfig = {
+    'IP': { leftKey: 'I', rightKey: 'P', leftName: '冲动型', rightName: '计划型' },
+    'SD': { leftKey: 'S', rightKey: 'D', leftName: '速配型', rightName: '长情型' },
+    'EF': { leftKey: 'E', rightKey: 'F', leftName: '海王型', rightName: '专一型' },
+    'AC': { leftKey: 'A', rightKey: 'C', leftName: '甲方型', rightName: 'CP型' }
+  };
+  const scores = {};
+
+  dims.forEach(dim => {
+    const vals = answers[dim] || [];
+    let left = 0, right = 0;
+    const { leftKey, rightKey } = dimConfig[dim];
+    vals.forEach(v => {
+      if (v === leftKey) left++;
+      else if (v === rightKey) right++;
+      // M（中间型）不计入左右，只影响百分比分母
+    });
+    const total = left + right;
+    let winner;
+    if (total === 0) winner = leftKey; // 全选中间型，默认左侧
+    else if (left >= right) winner = leftKey;
+    else winner = rightKey;
+    const pct = total > 0 ? Math.round(Math.max(left, right) / total * 100) : 50;
+    scores[dim] = { winner, leftKey, rightKey, left, right, total, pct, leftName: dimConfig[dim].leftName, rightName: dimConfig[dim].rightName };
+  });
+
+  const code = scores['IP'].winner + scores['SD'].winner + scores['EF'].winner + scores['AC'].winner;
+  showResult(code, scores);
+}
+
+// ==================== 结果展示 ====================
+function showResult(code, scores) {
+  const p = personalities[code];
+  if (!p) {
+    console.error('❌ 找不到人格代码:', code, '可用:', Object.keys(personalities));
+    showToast('结果计算异常，请重试 (code:' + code + ')');
+    return;
+  }
+  showPage('result');
+
+  // 基本信息
+  document.getElementById('result-icon').textContent = p.icon;
+  document.getElementById('result-code').textContent = code;
+  document.getElementById('result-name').textContent = p.icon + ' ' + p.name;
+  document.getElementById('result-tagline').textContent = '「' + p.tagline + '」';
+  // 星级
+  let starsHTML = '';
+  for (let i = 0; i < 5; i++) starsHTML += i < p.stars ? '⭐' : '☆';
+  document.getElementById('result-stars').innerHTML = starsHTML + '<span>PM岗位适配指数</span>';
+
+  // 维度分析
+  const dimClasses = { 'IP': 'ip', 'SD': 'sd', 'EF': 'ef', 'AC': 'ac' };
+  let dimHTML = '';
+  for (const dim of ['IP', 'SD', 'EF', 'AC']) {
+    const s = scores[dim];
+    const isLeft = s.winner === s.leftKey;
+    const barPct = s.pct;
+    dimHTML += `
+      <div class="dimension-row">
+        <span class="dimension-label">${isLeft ? s.leftName : s.rightName}</span>
+        <div class="dimension-bar-wrap"><div class="dimension-bar ${dimClasses[dim]}" style="width:${barPct}%"></div></div>
+        <span class="dimension-pct">${barPct}%</span>
+      </div>
+      <div class="dimension-ends"><span>${s.leftName} ❤️</span><span>🔒 ${s.rightName}</span></div>
+    `;
+  }
+  document.getElementById('dimensions-container').innerHTML = dimHTML;
+
+  // 情书
+  document.getElementById('love-letter').innerHTML = p.loveLetter.replace(/\n/g, '<br>');
+
+  // CP匹配
+  const cp = personalities[p.cpCode];
+  if (cp) {
+    document.getElementById('cp-pair').innerHTML = `
+      <div class="cp-person">
+        <span class="cp-person-icon">${cp.icon}</span>
+        <div class="cp-person-code">${p.cpCode}</div>
+        <div class="cp-person-name">${cp.name}</div>
+        <div class="cp-person-need">${p.cpYouNeed}</div>
+      </div>
+      <div class="cp-arrow">💘</div>
+      <div class="cp-person">
+        <span class="cp-person-icon">${p.icon}</span>
+        <div class="cp-person-code">${code}</div>
+        <div class="cp-person-name">${p.name}</div>
+        <div class="cp-person-need">${p.cpTheyNeed}</div>
+      </div>
+    `;
+  } else {
+    document.getElementById('cp-pair').innerHTML = '<p style="text-align:center;color:var(--text-muted)">暂无匹配数据</p>';
+  }
+
+  // 工具姻缘签
+  let toolsHTML = '';
+  p.tools.forEach(t => {
+    toolsHTML += `<div class="tool-item"><span class="tool-tag ${t.type}">${t.tag}</span><span><strong>${t.name}</strong>：${t.desc}</span></div>`;
+  });
+  document.getElementById('tools-list').innerHTML = toolsHTML;
+
+  // 进阶指南
+  document.getElementById('guide-content').textContent = p.guide;
+
+  // 存储结果
+  window._resultData = { code, personality: p, scores };
+  reportResult(code, p, scores);
+}
+
+// ==================== 数据上报 ====================
+function reportResult(code, personality, scores) {
+  const WEBHOOK_URL = '';
+  const data = {
+    timestamp: new Date().toISOString(),
+    code: code,
+    personality: personality.name,
+    stars: personality.stars,
+    scores: {
+      IP: scores['IP'].winner + '(' + scores['IP'].pct + '%)',
+      SD: scores['SD'].winner + '(' + scores['SD'].pct + '%)',
+      EF: scores['EF'].winner + '(' + scores['EF'].pct + '%)',
+      AC: scores['AC'].winner + '(' + scores['AC'].pct + '%)'
+    }
+  };
+  console.log('📊 测评结果:', data);
+  if (WEBHOOK_URL) {
+    fetch(WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+      .catch(err => console.log('数据上报失败:', err));
+  }
+  try {
+    const history = JSON.parse(localStorage.getItem('ai_love_test_history') || '[]');
+    history.push({ time: data.timestamp, code: code, name: personality.name });
+    localStorage.setItem('ai_love_test_history', JSON.stringify(history.slice(-10)));
+  } catch(e) {}
+}
+
+// ==================== 分享功能 ====================
+function shareResult() {
+  if (!window._resultData) return;
+  const { code, personality } = window._resultData;
+  document.getElementById('poster-icon').textContent = personality.icon;
+  document.getElementById('poster-code').textContent = code;
+  document.getElementById('poster-name').textContent = personality.icon + ' ' + personality.name;
+  document.getElementById('modal-share').classList.add('active');
+}
+
+function closeShareModal() {
+  document.getElementById('modal-share').classList.remove('active');
+}
+
+function copyShareText() {
+  if (!window._resultData) return;
+  const { code, personality } = window._resultData;
+  const shareText = `💘 我在「AI灵魂伴侣」测评中测出了：\n${personality.icon} ${code} · ${personality.name}\n「${personality.tagline}」\n\n快来测测你的AI恋爱人格，找到你的AI最佳CP！\n👉 点击链接开始测评`;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(shareText).then(() => {
+      showToast('✅ 分享文案已复制，去粘贴给朋友吧！');
+      closeShareModal();
+    });
+  } else {
+    showToast('📋 请长按手动复制分享文案');
+  }
+}
+
+function findCP() {
+  if (!window._resultData) return;
+  const { code, personality } = window._resultData;
+  const cp = personalities[personality.cpCode];
+  if (cp) showToast(`🔍 你的最佳CP是：${cp.icon} ${cp.name}(${personality.cpCode})`);
+}
+
+function retakeQuiz() {
+  if (confirm('确定要重新测评吗？当前结果将丢失。')) {
+    currentQuestion = 0;
+    answers = { IP: [], SD: [], EF: [], AC: [] };
+    selectedOption = null;
+    window._resultData = null;
+    startQuiz();
+  }
+}
+
+// ==================== 初始化 ====================
+createParticles();
+document.getElementById('modal-share').addEventListener('click', function(e) {
+  if (e.target === this) closeShareModal();
+});
+console.log('💘 找对你的AI灵魂伴侣 · 520特别版');
+console.log('📊 28道题 | 16种AI恋爱人格 | 每题3选项（两极+中间型）');
+</script>
+</body>
+</html>
